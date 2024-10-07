@@ -2,11 +2,19 @@ from threading import Timer
 import random as ra
 import time
 
+sle = None
+countdown = None
+midlane = None
+leftlane = None
+rightlane = None
+currentlane = None 
+i = None
+t = None
 def car_crashed():
     print("Car crashed!")
     while True:
         time.sleep(1.0)
-        tryaga = ("Do you want to Try again?(Y/N)\n>")
+        tryaga = input("Do you want to Try again?(Y/N)\n>")
         if tryaga == "Y":
             maingame()
             break
@@ -15,9 +23,68 @@ def car_crashed():
             exit()
         else:
             print("Invalid choice\n.\n.\n.\n")
-    
+
+def game_process():
+    global sle , countdown , currentlane , middlelane , rightlane , leftlane , i , t
+    time.sleep(sle)
+    Timer.start(countdown)
+    command = str(input("A boulder is coming!!!!\n>"))
+    if command.upper() == "R":
+        currentlane += 1 
+        Timer.cancel(countdown)
+        t -= 0.2
+        i += 1
+        if currentlane != leftlane and currentlane != rightlane:
+            print("Went off road!")
+            car_crashed()
+            
+    elif command.upper() == "L":
+        currentlane -= 1
+        Timer.cancel(countdown)
+        t -= 0.2
+        i += 1
+        if currentlane != leftlane and currentlane != rightlane:
+            print("Went off road!")
+            car_crashed()
+            
+    elif command.upper() == "STOP":
+        print("Thank you for playing")
+        exit()
+    elif command.upper() == "B":            # pause menu
+        print("Car stopped!")
+        Timer.cancel(countdown)
+        while True:
+            command = str(input(">"))
+            if command.upper() == "START":
+                print("Car started")
+                break
+            elif command.upper() == "STOP":
+                print("Thank you for playing")
+                exit()
+            elif command.upper() == "HELP":
+                print('''
+                There are three lanes left, centre and right
+                A boulder will come randomly under or equal to 8 seconds
+                You need to enter if u want to change to left lane or right lane
+                If you fail to change lanes in given time (time to change lessens every level) you crash 
+                If you go off the road your car crashes  
+                Enter Start to start the car
+                Enter Stop to stop the car
+                Enter R to turn the car in right lane
+                Enter L to turn the car in left lane
+                
+                ''')
+            else:
+                print("Invalid choice\n.\n.\n.\n")
+    else:
+        print("Invalid choice\n.\n.\n.\n")
+        car_crashed()
+        
+
+       
     
 def maingame():
+    global sle , countdown , currentlane , middlelane , rightlane , leftlane , i , t
     diffi = str(input('''                           
     Enter difficulty -->
 
@@ -46,170 +113,11 @@ def maingame():
     while i <= 10:
         countdown = Timer(t,car_crashed)
         if currentlane == 1:
-            time.sleep(sle)
-            Timer.start(countdown)
-            command = str(input("A boulder is coming!!!!\n>"))
-            if command.upper() == "R":
-                currentlane += 1 
-                Timer.cancel(countdown)
-                t -= 0.2
-                i += 1
-                if currentlane != leftlane and currentlane != rightlane:
-                    print("Went off road!")
-                    car_crashed()
-                    break
-            elif command.upper() == "L":
-                currentlane -= 1
-                Timer.cancel(countdown)
-                t -= 0.2
-                i += 1
-                if currentlane != leftlane and currentlane != rightlane:
-                    print("Went off road!")
-                    car_crashed()
-                    break
-            elif command.upper() == "STOP":
-                print("Thank you for playing")
-                exit()
-            elif command.upper() == "B":            # pause menu
-                print("Car stopped!")
-                Timer.cancel(countdown)
-                while True:
-                    command = str(input(">"))
-                    if command.upper() == "START":
-                        print("Car started")
-                        break
-                    elif command.upper() == "STOP":
-                        print("Thank you for playing")
-                        exit()
-                    elif command.upper() == "HELP":
-                        print('''
-                        There are three lanes left, centre and right
-                        A boulder will come randomly under or equal to 8 seconds
-                        You need to enter if u want to change to left lane or right lane
-                        If you fail to change lanes in given time (time to change lessens every level) you crash 
-                        If you go off the road your car crashes  
-                        Enter Start to start the car
-                        Enter Stop to stop the car
-                        Enter R to turn the car in right lane
-                        Enter L to turn the car in left lane
-                       
-                        ''')
-                    else:
-                        print("Invalid choice\n.\n.\n.\n")
-            else:
-                print("Invalid choice\n.\n.\n.\n")
-                car_crashed()
-                break
+            game_process()
         elif currentlane == 0:
-            time.sleep(sle)
-            Timer.start(countdown)
-            command = str(input("A boulder is coming!!!!\n>"))
-            if command.upper() == "R":
-                currentlane += 1 
-                Timer.cancel(countdown)
-                t -= 0.2
-                i += 1
-                if currentlane != midlane:
-                    print("Went off road!")
-                    car_crashed()
-                    break
-            elif command.upper() == "L":
-                currentlane -= 1
-                Timer.cancel(countdown)
-                t -= 0.2
-                i += 1
-                if currentlane != midlane:
-                    print("Went off road!")
-                    car_crashed()
-                    break
-            elif command.upper() == "STOP":
-                print("Thank you for playing")
-                exit()
-            elif command.upper() == "B":            # pause menu
-                print("Car stopped!")
-                Timer.cancel(countdown)
-                while True:
-                    command = str(input(">"))
-                    if command.upper() == "START":
-                        print("Car started")
-                        break
-                    elif command.upper() == "STOP":
-                        print("Thank you for playing")
-                        exit()
-                    elif command.upper() == "HELP":
-                        print('''
-                        There are three lanes left, centre and right
-                        A boulder will come randomly under or equal to 8 seconds
-                        You need to enter if u want to change to left lane or right lane
-                        If you fail to change lanes in given time (time to change lessens every level) you crash 
-                        If you go off the road your car crashes  
-                        Enter Start to start the car
-                        Enter Stop to stop the car
-                        Enter R to turn the car in right lane
-                        Enter L to turn the car in left lane
-                       
-                        ''')
-                    else:
-                        print("Invalid choice\n.\n.\n.\n")
-            else:
-                print("Invalid choice\n.\n.\n.\n")
-                car_crashed()
-                break
+            game_process()
         elif currentlane == 2:
-            time.sleep(sle)
-            Timer.start(countdown)
-            command = str(input("A boulder is coming!!!!\n>"))
-            if command.upper() == "R":
-                currentlane += 1 
-                Timer.cancel(countdown)
-                t -= 0.2
-                i += 1
-                if currentlane != midlane:
-                    print("Went off road!")
-                    car_crashed()
-                    break
-            elif command.upper() == "L":
-                currentlane -= 1
-                Timer.cancel(countdown)
-                t -= 0.2
-                i += 1
-                if currentlane != midlane:
-                    print("Went off road!")
-                    car_crashed()
-                    break
-            elif command.upper == "STOP":
-                print("Thank you for playing")
-                exit()
-            elif command.upper() == "B":            # pause menu
-                print("Car stopped!")
-                Timer.cancel(countdown)
-                while True:
-                    command = str(input(">"))
-                    if command.upper() == "START":
-                        print("Car started")
-                        break
-                    elif command.upper() == "STOP":
-                        print("Thank you for playing")
-                        exit()
-                    elif command.upper() == "HELP":
-                        print('''
-                        There are three lanes left, centre and right
-                        A boulder will come randomly under or equal to 8 seconds
-                        You need to enter if u want to change to left lane or right lane
-                        If you fail to change lanes in given time (time to change lessens every level) you crash 
-                        If you go off the road your car crashes  
-                        Enter Start to start the car
-                        Enter Stop to stop the car
-                        Enter R to turn the car in right lane
-                        Enter L to turn the car in left lane
-                       
-                        ''')
-                    else:
-                        print("Invalid choice\n.\n.\n.\n")
-            else:
-                print("Invalid choice\n.\n.\n.\n")
-                car_crashed()
-                break
+            game_process()
     else:
         print('''.\n.\n.\n.\n.
         Congratulations!!!!
